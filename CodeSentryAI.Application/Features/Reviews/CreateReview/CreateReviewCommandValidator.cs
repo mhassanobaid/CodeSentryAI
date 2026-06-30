@@ -1,10 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FluentValidation;
 
-namespace CodeSentryAI.Application.Features.Reviews.CreateReview
+namespace CodeSentryAI.Application.Features.Reviews.CreateReview;
+
+public sealed class CreateReviewCommandValidator
+    : AbstractValidator<CreateReviewCommand>
 {
-    internal class Class1
+    public CreateReviewCommandValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEmpty();
+
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .MaximumLength(200);
+
+        RuleFor(x => x.ReviewType)
+            .IsInEnum();
     }
 }

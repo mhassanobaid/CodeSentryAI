@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="Features\Reviews\GetReviewHistory\" />
+    <Folder Include="Features\Reviews\GetReviewDetails\" />
+    <Folder Include="Features\Reviews\Dashboard\" />
   </ItemGroup>
 
   <ItemGroup>

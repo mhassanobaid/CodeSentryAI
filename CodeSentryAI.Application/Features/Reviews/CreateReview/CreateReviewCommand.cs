@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
+using CodeSentryAI.Domain.Enums;
 
-namespace CodeSentryAI.Application.Features.Reviews.CreateReview
-{
-    internal class Class1
-    {
-    }
-}
+namespace CodeSentryAI.Application.Features.Reviews.CreateReview;
+
+public sealed record CreateReviewCommand
+(
+    Guid UserId,
+    string Title,
+    ReviewType ReviewType
+) : IRequest<CreateReviewResponse>;
