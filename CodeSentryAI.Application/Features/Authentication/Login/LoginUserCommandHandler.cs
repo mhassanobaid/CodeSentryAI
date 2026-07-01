@@ -29,8 +29,8 @@ public sealed class LoginUserCommandHandler
     }
 
     public async Task<LoginUserResponse> Handle(
-        LoginUserCommand request,
-        CancellationToken cancellationToken)
+    LoginUserCommand request,
+    CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmailAsync(
             request.Email,
@@ -46,7 +46,25 @@ public sealed class LoginUserCommandHandler
         if (!validPassword)
             throw new NotFoundException("Invalid email or password.");
 
-        // Infrastructure will implement this later.
-        throw new NotImplementedException();
+        var accessToken =
+            _jwtTokenGenerator.GenerateAccessToken(user);
+
+        var refreshToken =
+            _jwtTokenGenerator.GenerateRefreshToken(user.Id);
+
+        await _refreshTokenRepository.AddAsync(
+            refreshToken,
+            cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(
+            cancellationToken);
+
+        return new LoginUserResponse(
+            user.Id,
+            user.FullName,
+            user.Email,
+            accessToken,
+            refreshToken.Token);
     }
+
 }
